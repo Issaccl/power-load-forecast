@@ -34,13 +34,12 @@ def load_model():
 # ========== 加载示例数据 ==========
 @st.cache_data
 def load_demo_data():
-    train = pd.read_excel('data/train_dataframes.xlsx', engine='openpyxl')
-    test = pd.read_excel('data/test_dataframes.xlsx', engine='openpyxl')
+    train = pd.read_csv('data/train.csv')
+    test = pd.read_csv('data/test.csv')
     for df in [train, test]:
         df['datetime'] = pd.to_datetime(df['datetime'])
         df.set_index('datetime', inplace=True)
     return train, test
-
 # ========== 预测 ==========
 def predict(model, scaler_X, scaler_y, seq, feature_cols, steps=24):
     preds = []
