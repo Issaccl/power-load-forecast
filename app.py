@@ -121,18 +121,20 @@ def predict_future(model, scaler_X, scaler_y, last_sequence, feature_cols, steps
 def load_data():
     """加载训练和测试数据"""
     try:
-        train = pd.read_excel('train_dataframes.xlsx')
-        test = pd.read_excel('test_dataframes.xlsx')
-
+        import os
+        # Streamlit Cloud 上的路径
+        train = pd.read_excel(os.path.join('data', 'train_dataframes.xlsx'))
+        test = pd.read_excel(os.path.join('data', 'test_dataframes.xlsx'))
+        
         train['datetime'] = pd.to_datetime(train['datetime'])
         test['datetime'] = pd.to_datetime(test['datetime'])
         train.set_index('datetime', inplace=True)
         test.set_index('datetime', inplace=True)
-
+        
         return train, test
-    except:
+    except Exception as e:
+        st.error(f"数据加载失败: {e}")
         return None, None
-
 
 # ========== 主应用 ==========
 def main():
