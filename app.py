@@ -85,7 +85,13 @@ if data_source == "📦 使用示例数据":
     selected_date = st.sidebar.date_input("选择日期", dates[0], min_value=dates[0], max_value=dates[-1])
     
     # 取数据
-    start_idx = test.index.get_loc(pd.Timestamp(selected_date).strftime('%Y-%m-%d'))
+        # 取数据
+    date_str = pd.Timestamp(selected_date).strftime('%Y-%m-%d')
+    matching = test.index[test.index.strftime('%Y-%m-%d') == date_str]
+    if len(matching) == 0:
+        st.error("所选日期无数据")
+        st.stop()
+    start_idx = test.index.get_loc(matching[0])
     start_idx = max(start_idx, lookback)
     historical = test.iloc[max(0, start_idx-48):start_idx]
     last_seq = test.iloc[start_idx-lookback:start_idx]
