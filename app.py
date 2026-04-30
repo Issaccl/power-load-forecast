@@ -117,14 +117,13 @@ def predict_future(model, scaler_X, scaler_y, last_sequence, feature_cols, steps
 
 
 # ========== 加载数据 ==========
-@st.cache_data
+@st.cache_datadef 
 def load_data():
     """加载训练和测试数据"""
     try:
         import os
-        # Streamlit Cloud 上的路径
-        train = pd.read_excel(os.path.join('data', 'train_dataframes.xlsx'))
-        test = pd.read_excel(os.path.join('data', 'test_dataframes.xlsx'))
+        train = pd.read_excel(os.path.join('data', 'train_dataframes.xlsx'), engine='openpyxl')
+        test = pd.read_excel(os.path.join('data', 'test_dataframes.xlsx'), engine='openpyxl')
         
         train['datetime'] = pd.to_datetime(train['datetime'])
         test['datetime'] = pd.to_datetime(test['datetime'])
